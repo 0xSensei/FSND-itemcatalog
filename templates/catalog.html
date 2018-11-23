@@ -1,0 +1,26 @@
+{% extends "main.html" %}
+{% block content %}
+
+
+  
+<div class="container text-center">    
+  <div class="row content">
+    <div class="col-md-2 sidenav">
+      {% for catalog in catalogs %}
+      <h4><a href="{{url_for('showitems', catalog_name = catalog.name)}}">{{catalog.name}}</a></h4>
+      {% endfor %}
+    </div>
+    <div class="col-md-10 text-left"> 
+            {% if session['username'] %}
+            <h4 ><a href="{{url_for('addItem')}}"> Add Item </a></h4>
+            {% endif %}  
+      <h1>{{items[0].catalog.name}} Items</h1>
+      {% for item in items %}
+      <p ><a href="{{url_for('showitem', catalog_name = item.catalog.name, item_name = item.name)}}">{{item.name}}  <span class="text-muted">({{item.catalog.name}})</span> </a></p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

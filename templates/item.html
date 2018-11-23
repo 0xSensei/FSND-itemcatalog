@@ -1,0 +1,38 @@
+{% extends "main.html" %}
+{% block content %}
+
+
+  
+<div class="container text-center">  
+</br></br></br>
+    {% if item.picture_name%}
+    <div class="row ">
+        <div class="col-sm-0 text-left"> 
+        </div>    
+        <div class="col-sm-4 text-left"> 
+            <img src="{{url_for('static', filename=item.picture_name)}}" />
+        </div>
+        <div class="col-sm-4 text-left"> 
+        </div>
+    </div>
+    {% endif %}
+  <div class="row content">
+    <div class="col-md-8 text-left"> 
+      <h1>{{item.name}} Item</h1>
+      <p >{{item.description}} </p>
+      {% if session['user_id'] == item.user_id %}
+      <a href="{{url_for('editItem' , item_name=item.name)}}" class="btn btn-primary">
+            <span class="glyphicon glyphicon-edit" > Edit</span>
+      </a>
+      <a href="{{url_for('deleteItem' , item_name=item.name)}}" class="btn btn-danger">
+            <span class="glyphicon glyphicon-remove" > Delete</span>
+      </a>
+      {% endif %}
+    </div>
+    <div class="col-md-2 text-left"> 
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
