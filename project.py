@@ -48,6 +48,12 @@ def showcatalogs_js():
 @app.route('/catalog/<string:catalog_name>/')
 @app.route('/catalog/<string:catalog_name>/items/')
 def showitems(catalog_name):
+    """
+    docstring here
+        :param catalog_name: 
+    returns:
+        a list of items based on the catalog name given and a list of catalogs to enhance user experince
+    """
     print catalog_name
     catalog = session.query(Catalog).filter_by(name=catalog_name).one()
     catalogs = session.query(Catalog).order_by(asc(Catalog.name))
@@ -56,10 +62,14 @@ def showitems(catalog_name):
     return render_template('catalog.html', items=items, catalogs=catalogs)
 
 
-@app.route('/catalog/<string:catalog_name>/')
 @app.route('/catalog/<string:catalog_name>/JSON')
 def showitems_js(catalog_name):
-    print catalog_name
+    """
+    docstring here
+        :param catalog_name: 
+    returns:
+        a list of items in json format
+    """
     catalog = session.query(Catalog).filter_by(name=catalog_name).one()
     items = session.query(CatalogItem).filter_by(
         catalog_id=catalog.id).all()
@@ -68,6 +78,13 @@ def showitems_js(catalog_name):
 
 @app.route('/catalog/<string:catalog_name>/<string:item_name>')
 def showitem(catalog_name, item_name):
+    """
+    docstring here
+        :param catalog_name: 
+        :param item_name: 
+    returns:
+        return the item object, based on the input for the item name
+    """
     catalog = session.query(Catalog).filter_by(name=catalog_name).one()
     item = session.query(CatalogItem).filter_by(name=item_name).one()
     return render_template('item.html', item=item)
@@ -84,7 +101,18 @@ def showitem_js(catalog_name, item_name):
 
 @app.route('/catalog/item/new', methods=['GET', 'POST'])
 def addItem():
-
+    """
+    docstring here
+        input POST:
+            csrf: will be used to prevent csrf attack
+            form[name]: the item name to be added, must be unique
+            form[description]: the item description to be added, could be None
+            form[catalog]: the catalog name to be added, cannot be null
+            files[file]: the image associate with the item, could be None
+        Notes:
+            the user must be authenticated to perform such actions
+        
+    """
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == "POST":
@@ -123,6 +151,18 @@ def addItem():
 
 @app.route('/catalog/<string:item_name>/edit', methods=['GET', 'POST'])
 def editItem(item_name):
+    """
+    docstring here
+        input POST:
+            csrf: will be used to prevent csrf attack
+            form[name]: the item name to be added, must be unique
+            form[description]: the item description to be added, could be None
+            form[catalog]: the catalog name to be added, cannot be null
+            files[file]: the image associate with the item, could be None
+        Notes:
+            the user must be authenticated to perform such actions, and must be authorized which means he is the one created the item.
+        
+    """
     if 'username' not in login_session:
         return redirect('/login')
     item = session.query(CatalogItem).filter_by(name=item_name).one()
@@ -166,6 +206,16 @@ def editItem(item_name):
 
 @app.route('/catalog/<string:item_name>/delete', methods=['GET', 'POST'])
 def deleteItem(item_name):
+    """
+    docstring here
+        args:
+            item_name: item name to be deleted
+        input POST:
+            csrf: will be used to prevent csrf attack
+        Notes:
+            the user must be authenticated to perform such actions, and must be authorized which means he is the one created the item.
+        
+    """
     if 'username' not in login_session:
         return redirect('/login')
     item = session.query(CatalogItem).filter_by(name=item_name).one()
@@ -193,6 +243,11 @@ def allowed_file(filename):
 
 @app.route('/login')
 def showLogin():
+    """
+    docstring here
+    return:
+        a login page for google oauth filled with csrf token for anti forgery
+    """
     state = csrf()
     login_session['state'] = state
     # return "The current session state is %s" % login_session['state']
@@ -201,6 +256,11 @@ def showLogin():
 
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
+    """
+    docstring here
+    return:
+       will handle the user authntication into google using the code recived during login, will populate a user session if logged on and add him to database for new user
+    """
     # Validate state token
     if request.args.get('state') != login_session['state']:
         response = make_response(json.dumps('Invalid state parameter.'), 401)
@@ -290,6 +350,11 @@ def gconnect():
 
 @app.route('/disconnect')
 def disconnect():
+    """
+    docstring here
+    return:
+        clear a user session and log him out.
+    """
     if 'provider' in login_session:
         if login_session['provider'] == 'google':
             gdisconnect()
@@ -309,6 +374,11 @@ def disconnect():
 
 @app.route('/catalog.json')
 def catalogJson():
+    """
+    docstring here
+    return:
+       a list of all categories and associated item in json format
+    """
     catalogs = session.query(Catalog).order_by(asc(Catalog.name))
 
     category = []
@@ -324,6 +394,11 @@ def catalogJson():
 
 
 def createUser(login_session):
+    """
+    docstring here
+    return:
+      create a new user based on the session data that was saved during google connect
+    """
     newUser = User(name=login_session['username'], email=login_session[
                    'email'], picture=login_session['picture'])
     session.add(newUser)
