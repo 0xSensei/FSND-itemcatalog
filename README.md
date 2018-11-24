@@ -24,6 +24,7 @@ item preview:
 * go to Credentials -> OAuth consent screen and fill it with the appropriate information
 * go to Credentials -> OAuth 2.0 client IDs and edit it to add your authorized javascript origins and authroized redirect urls, my app work with http://localhost:5000/ in both fields.
 * download the config and place it in the root directory of the project
+* copy the client id from the config and place it in data-clientid span
 
 
 ## Install & Run
