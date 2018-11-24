@@ -43,7 +43,7 @@ item preview:
 ## Notes
 I implemented the image handling for items images,
 and used the random string generation used in the course to defend against csrf attack.
-
+for a json format output, append /JSON
 ## Reference
 the google oauth code used to authenticate the user is the same that was used in the course.
 https://github.com/udacity/ud330
