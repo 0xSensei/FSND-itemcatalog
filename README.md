@@ -1,5 +1,5 @@
 # Udacity Item Catalog
-Udaciry FSND Fourth project
+Udacity FSND Fourth project
 This is a full stack app built with python flask, sqlalchemy and jinja2, users are able to log in using their google account through oauth. authenticated user can create/edit/delete item's 
 
 Visit: https://udacity-itemscatalog.herokuapp.com/ for a live version.
