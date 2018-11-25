@@ -24,7 +24,7 @@ item preview:
 * go to Credentials -> OAuth consent screen and fill it with the appropriate information
 * go to Credentials -> OAuth 2.0 client IDs and edit it to add your authorized javascript origins and authroized redirect urls, my app work with http://localhost:5000/ in both fields.
 * download the config and place it in the root directory of the project
-* copy the client id from the config and place it in data-clientid span
+* copy the client id from the config and place it in data-clientid span in `login.html`
 
 
 ## Install & Run
@@ -41,9 +41,11 @@ item preview:
 * visit http://localhost:5000/ 
 
 ## Notes
-I implemented the image handling for items images,
+* I implemented the image handling for items images,
 and used the random string generation used in the course to defend against csrf attack.
-for a json format output, append /JSON
+for a json format output
+* append /JSON for a specific catalog's/item's endpoint to get a JSON output for that catalog's/item's.
+* /catalog.json endpoint will return  a JSON format for the complete catalog's and corresponding item's.
 ## Reference
 the google oauth code used to authenticate the user is the same that was used in the course.
 https://github.com/udacity/ud330
