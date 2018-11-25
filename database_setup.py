@@ -2,6 +2,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
+from sqlalchemy.orm import backref
 
 Base = declarative_base()
 
@@ -39,9 +40,9 @@ class CatalogItem(Base):
     description = Column(String(250))
     picture_name = Column(String(500))
     catalog_id = Column(Integer, ForeignKey('catalog.id'))
-    catalog = relationship(Catalog)
+    catalog = relationship(Catalog, backref=backref("items", cascade="all,delete"))
     user_id = Column(Integer, ForeignKey('user.id'))
-    user = relationship(User)
+    user = relationship(User, backref=backref("items", cascade="all,delete"))
 
     @property
     def serialize(self):
